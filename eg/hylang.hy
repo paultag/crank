@@ -6,8 +6,7 @@
   :source "hy"
   :key "0x70DB41EB"
   :upstream "git://github.com/hylang/hy.git"
-  :version (+ (.strip (.replace (git "describe") "-" "+"))
-              (.format "+{}" (.strftime (datetime.datetime.utcnow) "%Y%m%d")))
+  :version (.replace (git "describe") "-" "+")
   :maintainer "Nightly Build <team@hylang.org>"
   :suites "trusty" "precise"
   :target "ppa:hy-society/nightly"
