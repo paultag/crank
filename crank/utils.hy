@@ -1,4 +1,18 @@
-(import [collections [defaultdict]] [functools [reduce]])
+(import [collections [defaultdict]]
+        [tempfile [mkdtemp]]
+        [contextlib [contextmanager]]
+        [os [chdir getcwd]]
+        [shutil [rmtree]]
+        [functools [reduce]])
+
+
+(with-decorator contextmanager (defn cdtmp []
+  (setv tdir (mkdtemp))
+  (setv popd (getcwd))
+  (chdir tdir)
+  (yield)
+  (chdir popd)
+  (rmtree tdir)))
 
 
 (defn one [default args]
