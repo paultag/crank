@@ -1,4 +1,6 @@
+(import [crank.utils [group-map one]])
 
 
-
-(defmacro build [&rest params])
+(defmacro/g! build [&rest params]
+  (let [[mapping (group-map keyword? params)]]
+    (print (:suites mapping))))
