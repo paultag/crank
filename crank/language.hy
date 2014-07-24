@@ -27,5 +27,9 @@
            (print "Tarball built as" tarball)
 
            (git-clone-debian ~(one 'nil (:debian mapping)))
+           (print "Debian overlay pulled down")
+
            (prepare-changelog version "trusty")
-           (prepare-source)))))
+           (print "Changelog prepared.")
+           (prepare-source)
+           (print "Source distribution prepared.")))))
