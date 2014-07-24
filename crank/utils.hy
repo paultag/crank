@@ -12,9 +12,10 @@
   (setv tdir (mkdtemp))
   (setv popd (getcwd))
   (chdir tdir)
-  (yield)
-  (chdir popd)
-  (rmtree tdir)))
+  (try (yield)
+       (finally
+         (chdir popd)
+         (rmtree tdir)))))
 
 
 (defn prepare-changelog [version suite]
