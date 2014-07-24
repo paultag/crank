@@ -9,27 +9,38 @@
 
 (defmacro/g! build [&rest params]
   (let [[mapping (group-map keyword? params)]]
-    `(do (import [crank.utils [git-clone git-clone-debian
+    `(do (import dput datetime
+                 [crank.utils [git-clone git-clone-debian
                                prepare-changelog prepare-source
-                               build-tarball]]
+                               sign-source build-tarball]]
+                 [glob [glob]]
                  [os [chdir]])
-         (in-workdir
-           (setv source ~(one 'nil (:source mapping)))
+         (for [dist [~@(:suites mapping)]]
+           (print "Building for" dist)
+           (in-workdir
+             (setv source ~(one 'nil (:source mapping)))
 
-           (print "Cloning into" source "(just a sec)")
-           (git-clone ~(one 'nil (:upstream mapping)) source)
-           (chdir source)
+             (print "Cloning into" source "(just a sec)")
+             (git-clone ~(one 'nil (:upstream mapping)) source)
+             (chdir source)
 
-           (setv version (.strip ~(one 'nil (:version mapping))))
-           (print "Building version" version)
+             (setv version (.strip ~(one 'nil (:version mapping))))
+             (print "Building version" version)
 
-           (setv tarball (build-tarball source version))
-           (print "Tarball built as" tarball)
+             (setv tarball (build-tarball source version))
+             (print "Tarball built as" tarball)
 
-           (git-clone-debian ~(one 'nil (:debian mapping)))
-           (print "Debian overlay pulled down")
+             (git-clone-debian ~(one 'nil (:debian mapping)))
+             (print "Debian overlay pulled down")
 
-           (prepare-changelog version "trusty")
-           (print "Changelog prepared.")
-           (prepare-source)
-           (print "Source distribution prepared.")))))
+             (prepare-changelog version dist)
+             (print "Changelog prepared.")
+             (prepare-source)
+             (print "Source distribution prepared.")
+             (let [[(, changes) (glob (.format "../{}*{}*source*changes" source version))]
+                   [key ~(one 'nil (:key mapping))]
+                   [target ~(one 'nil (:target mapping))]]
+               (print "Signing" changes "with" key)
+               (sign-source changes key)
+               (print "Uploading" changes "to" target)
+               (dput.upload changes target)))))))

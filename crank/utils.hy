@@ -3,7 +3,8 @@
         [contextlib [contextmanager]]
         [os [chdir getcwd]]
         [os.path [exists join]]
-        [sh [git tar dch dpkg-buildpackage]]
+        [glob [glob]]
+        [sh [git tar dch dpkg-buildpackage debsign]]
         [shutil [rmtree move]]
         [functools [reduce]])
 
@@ -21,12 +22,17 @@
 (defn prepare-changelog [version suite]
   (dch "--newversion"
        (.format "{}-1~{}1" version suite)
+       "--force-distribution"
        "--distribution" suite
        "Automated rebuild."))
 
 
 (defn prepare-source []
   (dpkg-buildpackage "-us" "-uc" "-S"))
+
+
+(defn sign-source [path key]
+  (debsign (.format "-k{}" key) path))
 
 
 (defn git-clone [url dest]
@@ -44,10 +50,13 @@
 
 (defn build-tarball [source version]
   (let [[tarball (.format "{}_{}.orig.tar.gz" source version)]]
-    (tar "-zcvf"
-      (.format "../{}" tarball)
-      (.format "../{}" source))
+    (git "archive" "-o" (.format "../{}" tarball) "--format" "tar.gz" "HEAD")
     tarball))
+
+    ; (tar "-zcvf"
+    ;   (.format "../{}" tarball)
+    ;   (.format "../{}" source))
+    ; tarball))
 
 
 (defn one [default args]

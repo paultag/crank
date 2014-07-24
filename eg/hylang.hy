@@ -4,9 +4,11 @@
 
 (build
   :source "hy"
+  :key "0x70DB41EB"
   :upstream "git://github.com/hylang/hy.git"
-  :version (.replace (git "describe") "-" "+")
+  :version (+ (.strip (.replace (git "describe") "-" "+"))
+              (.format "+{}" (.strftime (datetime.datetime.utcnow) "%Y%m%d")))
   :maintainer "Nightly Build <team@hylang.org>"
-  :suites "trusty"
+  :suites "trusty" "precise"
   :target "ppa:hy-society/nightly"
   :debian "git://git.debian.org/collab-maint/hy.git")
