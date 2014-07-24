@@ -9,5 +9,13 @@
 
 (defmacro/g! build [&rest params]
   (let [[mapping (group-map keyword? params)]]
-    `(in-workdir
-       (print "Hello"))))
+    `(do (import [crank.utils [git-clone]]
+                 [os [chdir]])
+         (in-workdir
+           (setv source ~(one 'nil (:source mapping)))
+           (print "Cloning into" source "(just a sec)")
+           (git-clone ~(one 'nil (:upstream mapping)) source)
+           (chdir source)
+           (setv version ~(one 'nil (:version mapping)))
+           (print "Building version" version)
+))))

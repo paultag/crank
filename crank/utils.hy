@@ -2,6 +2,7 @@
         [tempfile [mkdtemp]]
         [contextlib [contextmanager]]
         [os [chdir getcwd]]
+        [sh [git]]
         [shutil [rmtree]]
         [functools [reduce]])
 
@@ -13,6 +14,10 @@
   (yield)
   (chdir popd)
   (rmtree tdir)))
+
+
+(defn git-clone [url dest]
+  (git "clone" url dest))
 
 
 (defn one [default args]

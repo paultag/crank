@@ -3,6 +3,7 @@
 
 
 (build
+  :source "hy"
   :upstream "git://github.com/hylang/hy.git"
   :version (.replace (git "describe") "-" "+")
   :maintainer "Nightly Build <team@hylang.org>"
