@@ -2,8 +2,9 @@
         [tempfile [mkdtemp]]
         [contextlib [contextmanager]]
         [os [chdir getcwd]]
-        [sh [git]]
-        [shutil [rmtree]]
+        [os.path [exists join]]
+        [sh [git tar dch dpkg-buildpackage]]
+        [shutil [rmtree move]]
         [functools [reduce]])
 
 
@@ -16,8 +17,36 @@
   (rmtree tdir)))
 
 
+(defn prepare-changelog [version suite]
+  (dch "--newversion"
+       (.format "{}-1~{}1" version suite)
+       "--distribution" suite
+       "Automated rebuild."))
+
+
+(defn prepare-source []
+  (dpkg-buildpackage "-us" "-uc" "-S"))
+
+
 (defn git-clone [url dest]
   (git "clone" url dest))
+
+
+(defn git-clone-debian [url]
+  (setv dest (getcwd))
+  (with [[(cdtmp)]]
+    (git "clone" url "debian")
+    (if (exists "./debian/debian/")
+        (move "./debian/debian/" dest)
+        (move "./debian/" dest))))
+
+
+(defn build-tarball [source version]
+  (let [[tarball (.format "{}_{}.orig.tar.gz" source version)]]
+    (tar "-zcvf"
+      (.format "../{}" tarball)
+      (.format "../{}" source))
+    tarball))
 
 
 (defn one [default args]
