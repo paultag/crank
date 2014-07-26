@@ -3,7 +3,7 @@ FROM        debian:unstable
 MAINTAINER  Paul R. Tagliamonte <paultag@debian.org>
 
 RUN apt-get update && apt-get install -y \
-    python3.4 python3-pip \
+    python3.4 python3-pip python3-distro-info \
     python3-setuptools python-setuptools \
     python-dput dput-ng \
     git \
