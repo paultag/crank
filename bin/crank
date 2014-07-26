@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+echo ""
+echo "Using: ${CRANK_HOME}"
+echo ""
+echo ""
+# XXX: Sanity check ${CRANK_HOME}
+gpg --import ${CRANK_HOME}/key.asc
+hy $@
