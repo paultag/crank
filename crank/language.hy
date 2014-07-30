@@ -14,7 +14,14 @@
                                prepare-changelog prepare-source
                                sign-source build-tarball]]
                  [glob [glob]]
-                 [os [chdir]])
+                 [os [environ chdir]])
+
+         (setv (get environ "DEBEMAIL")
+              ~(one 'nil (:maintainer-email mapping)))
+
+         (setv (get environ "DEBFULLNAME")
+              ~(one 'nil (:maintainer-name mapping)))
+
          (for [dist [~@(:suites mapping)]]
            (print "Building for" dist)
            (in-workdir

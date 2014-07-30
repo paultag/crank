@@ -7,7 +7,8 @@
   :key "0x70DB41EB"
   :upstream "git://github.com/hylang/hy.git"
   :version (.replace (git "describe") "-" "+")
-  :maintainer "Nightly Build <team@hylang.org>"
+  :maintainer-email "doulos@metatron.pault.ag"
+  :maintainer-name "Paul's Doulos"
   :suites "utopic" "trusty"
   :target "ppa:hy-society/nightly"
   :debian "git://git.debian.org/collab-maint/hy.git")
