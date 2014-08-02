@@ -9,6 +9,7 @@
   :version (.replace (git "describe") "-" "+")
   :maintainer-email "doulos@metatron.pault.ag"
   :maintainer-name "Paul's Doulos"
+  :upload-location "https://launchpad.net/~hy-society/+archive/ubuntu/nightly/+files/hy_{version}.dsc"
   :suites "utopic" "trusty"
   :target "ppa:hy-society/nightly"
   :debian "git://git.debian.org/collab-maint/hy.git")

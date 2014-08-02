@@ -9,7 +9,7 @@
 
 (defmacro/g! build [&rest params]
   (let [[mapping (group-map keyword? params)]]
-    `(do (import dput datetime
+    `(do (import dput datetime requests urllib.parse
                  [crank.utils [git-clone git-clone-debian
                                prepare-changelog prepare-source
                                sign-source build-tarball]]
@@ -21,6 +21,8 @@
 
          (setv (get environ "DEBFULLNAME")
               ~(one 'nil (:maintainer-name mapping)))
+
+         (setv remote ~(one 'nil (:upload-location mapping)))
 
          (for [dist [~@(:suites mapping)]]
            (print "Building for" dist)
@@ -40,8 +42,22 @@
              (git-clone-debian ~(one 'nil (:debian mapping)))
              (print "Debian overlay pulled down")
 
-             (prepare-changelog version dist)
+             (setv dversion (prepare-changelog version dist))
              (print "Changelog prepared.")
+             (print "Version:" dversion)
+
+             (setv url (apply remote.format [] {
+               "version" dversion
+               "upstream-version" version
+               "source" source
+             }))
+
+             (setv response (requests.head url))
+             (if (!= response.status-code 404)
+               (do (print dversion "already present in the remote")
+                   (continue))
+               (print "Remote doesn't have" dversion))
+
              (prepare-source)
              (print "Source distribution prepared.")
              (let [[(, changes) (glob (.format "../{}*{}*source*changes" source version))]

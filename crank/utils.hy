@@ -20,11 +20,13 @@
 
 
 (defn prepare-changelog [version suite]
-  (dch "--newversion"
-       (.format "{}-1~{}1" version suite)
-       "--force-distribution"
-       "--distribution" suite
-       "Automated rebuild."))
+  (let [[dversion (.format "{}-1~{}1" version suite)]]
+    (dch "--newversion"
+         (.format "{}-1~{}1" version suite)
+         "--force-distribution"
+         "--distribution" suite
+         "Automated rebuild.")
+    dversion))
 
 
 (defn prepare-source []
