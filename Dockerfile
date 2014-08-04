@@ -27,6 +27,12 @@ RUN python3.4 /usr/bin/pip3 install -r requirements.txt
 COPY bin/crank /usr/bin/crank
 ENV CRANK_HOME /crank/
 
+# add a user to run crank as, for better safeness
+RUN groupadd user && useradd -g user user
+RUN mkdir -p "$CRANK_HOME" && chown -R user:user "$CRANK_HOME"
+USER user
+ENV HOME /home/user
+
 ENTRYPOINT ["/usr/bin/crank"]
 CMD []
 
