@@ -14,19 +14,20 @@ RUN apt-get update && apt-get install -y \
     dpkg-dev \
     devscripts
 
-RUN mkdir -p /opt/pault.ag/
-ADD . /opt/pault.ag/crank/
-ADD bin/crank /usr/bin/crank
-
 RUN python3.4 /usr/bin/pip3 install -e \
         git://git.debian.org/collab-maint/dputng.git#egg=dput
 
 RUN python3.4 /usr/bin/pip3 install -e \
         git://github.com/hylang/hy.git#egg=hy
 
-RUN python3.4 /usr/bin/pip3 install -r \
-        /opt/pault.ag/crank/requirements.txt
+COPY requirements.txt /opt/pault.ag/crank/
+WORKDIR /opt/pault.ag/crank
+RUN python3.4 /usr/bin/pip3 install -r requirements.txt
 
+COPY bin/crank /usr/bin/crank
 ENV CRANK_HOME /crank/
-WORKDIR /opt/pault.ag/crank/
+
 ENTRYPOINT ["/usr/bin/crank"]
+CMD []
+
+COPY . /opt/pault.ag/crank
