@@ -1,9 +1,37 @@
-#!/bin/sh
+#!/bin/bash
 set -e
-echo ""
-echo "Using: ${CRANK_HOME}"
-echo ""
-echo ""
-# XXX: Sanity check ${CRANK_HOME}
-gpg --import ${CRANK_HOME}/key.asc
-hy $@
+
+echo
+
+if [ -z "$CRANK_HOME" ]; then
+	echo >&2 'error: missing CRANK_HOME'
+	echo >&2 '  eg, CRANK_HOME=/crank'
+	echo >&2
+	exit 1
+fi
+
+mkdir -p "$CRANK_HOME"
+CRANK_HOME="$(cd "$CRANK_HOME" && pwd -P)"
+
+echo "Using: ${CRANK_HOME}/"
+echo
+
+# Sanity check ${CRANK_HOME}
+if [ ! -e "${CRANK_HOME}/key.asc" ]; then
+	echo >&2 "warning: missing '${CRANK_HOME}/key.asc'!"
+	echo >&2 '  crank may not work as expected...'
+	echo >&2
+else
+	gpg --import "${CRANK_HOME}/key.asc"
+fi
+
+echo
+
+if [ $# -eq 0 ]; then
+	echo >&2 'error: missing arguments'
+	echo >&2 '  try ./eg/hylang.hy'
+	echo >&2
+	exit 1
+fi
+
+exec hy "$@"
