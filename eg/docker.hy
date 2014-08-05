@@ -2,7 +2,7 @@
 (import [sh [cat git]])
 
 
-(defn gits [&rest args] (.strip (str (apply git args))))
+(defn gits [&rest args] (-> (apply git args) (str) (.strip)))
 
 (build
   :source "docker.io"
