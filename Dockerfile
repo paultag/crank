@@ -28,10 +28,10 @@ COPY bin/crank /usr/bin/crank
 ENV CRANK_HOME /crank/
 
 # add a user to run crank as, for better safeness
-RUN groupadd user && useradd -g user user
+ENV HOME /home/user
+RUN groupadd user && useradd -d "$HOME" -m -g user user
 RUN mkdir -p "$CRANK_HOME" && chown -R user:user "$CRANK_HOME"
 USER user
-ENV HOME /home/user
 
 ENTRYPOINT ["/usr/bin/crank"]
 CMD []
