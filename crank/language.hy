@@ -10,7 +10,7 @@
 (defmacro/g! build [&rest params]
   (let [[mapping (group-map keyword? params)]]
     `(do (import dput datetime requests urllib.parse
-                 [crank.utils [git-clone git-clone-debian
+                 [crank.utils [repo-clone repo-clone-debian
                                prepare-changelog prepare-source
                                sign-source build-tarball]]
                  [glob [glob]]
@@ -30,7 +30,7 @@
              (setv source ~(one 'nil (:source mapping)))
 
              (print "Cloning into" source "(just a sec)")
-             (git-clone ~(one 'nil (:upstream mapping)) source)
+             (repo-clone ~(one 'nil (:upstream mapping)) source)
              (chdir source)
 
              (setv version (.strip ~(one 'nil (:version mapping))))
@@ -39,7 +39,7 @@
              (setv tarball (build-tarball source version))
              (print "Tarball built as" tarball)
 
-             (git-clone-debian ~(one 'nil (:debian mapping)))
+             (repo-clone-debian ~(one 'nil (:debian mapping)))
              (print "Debian overlay pulled down")
 
              (setv dversion (prepare-changelog version dist))

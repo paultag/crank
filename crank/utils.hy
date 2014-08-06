@@ -4,7 +4,7 @@
         [os [chdir getcwd]]
         [os.path [exists join]]
         [glob [glob]]
-        [sh [git tar dch dpkg-buildpackage debsign]]
+        [sh [git svn tar dch dpkg-buildpackage debsign]]
         [shutil [rmtree move]]
         [functools [reduce]])
 
@@ -37,14 +37,16 @@
   (debsign (.format "-k{}" key) path))
 
 
-(defn git-clone [url dest]
-  (git "clone" url dest))
+(defn repo-clone [url dest]
+  (if (.startswith url "svn://")
+    (svn "checkout" url dest)
+    (git "clone" url dest)))
 
 
-(defn git-clone-debian [url]
+(defn repo-clone-debian [url]
   (setv dest (getcwd))
   (with [[(cdtmp)]]
-    (git "clone" url "debian")
+    (repo-clone url "debian")
     (if (exists "./debian/debian/")
         (move "./debian/debian/" dest)
         (move "./debian/" dest))))
