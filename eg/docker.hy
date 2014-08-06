@@ -2,13 +2,15 @@
 (import [sh [cat git]])
 
 
-(defn gits [&rest args] (-> (apply git args) (str) (.strip)))
+(defn shs [cmd &rest args] (-> (apply cmd args) (str) (.strip)))
+(defn gits [&rest args] (apply shs [git args]))
+(defn cats [&rest args] (apply shs [cat args]))
 
 (build
   :source "docker.io"
   :key "0x70DB41EB"
   :upstream "git://github.com/docker/docker.git"
-  :version (-> (cat "VERSION") ; VERSION is something like "1.1.2-dev"
+  :version (-> (cats "VERSION") ; VERSION is something like "1.1.2-dev"
                (.replace "-" "+")
                (.replace "dev" (+ (gits "rev-list" "HEAD" "--count")
                                   "+"
