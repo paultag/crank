@@ -23,3 +23,5 @@ DSL Key Values
   * `suites` - list of suites to upload to
   * `target` - dput-ng target
   * `debian` - debian git url
+
+See `eg/` (and especially `eg/hylang.hy`) for concrete examples that will make this much more clear.
