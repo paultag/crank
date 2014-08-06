@@ -63,7 +63,7 @@
              (let [[(, changes) (glob (.format "../{}*{}*source*changes" source version))]
                    [key ~(one 'nil (:key mapping))]
                    [target ~(one 'nil (:target mapping))]]
-               (print "Signing" changes "with" key)
-               (sign-source changes key)
-               (print "Uploading" changes "to" target)
-               (dput.upload changes target)))))))
+               (lif key ((print "Signing" changes "with" key)
+                         (sign-source changes key)
+                         (lif target ((print "Uploading" changes "to" target)
+                                      (dput.upload changes target)))))))))))
