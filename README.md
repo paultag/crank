@@ -7,7 +7,7 @@ You're on your own, foo'.
 
 ## Ok, I get it.  This is super experimental software I probably shouldn't use yet.  Seriously though, what the heck is it?
 
-It's a super cool Hy program for doing regular builds (esp. nightly) of Debian packages!  For an example, see [Hy nightly builds](https://launchpad.net/~hy-society/+archive/ubuntu/nightly/+packages), which comes from [eg/hylang.hy](eg/hylang.hy).
+It's a super cool Hy program for doing regular builds (esp. nightly) of Debian packages!  For an example, see [Hy nightly builds](https://launchpad.net/~hy-society/+archive/ubuntu/nightly/+packages), which comes from [eg/hy.hy](eg/hy.hy).
 
 
 DSL Key Values
@@ -26,4 +26,4 @@ DSL Key Values
   * `debian` - debian git or svn repo url
   * `debian-refspec` - debian tag, branch, or svn revision
 
-See `eg/` (and especially `eg/hylang.hy`) for concrete examples that will make this much more clear.
+See `eg/` (and especially `eg/hy.hy`) for concrete examples that will make this much more clear.

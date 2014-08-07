@@ -29,7 +29,7 @@ echo
 
 if [ $# -eq 0 ]; then
 	echo >&2 'error: missing arguments'
-	echo >&2 '  try ./eg/hylang.hy'
+	echo >&2 '  try ./eg/hy.hy'
 	echo >&2
 	exit 1
 fi
