@@ -30,7 +30,8 @@
              (setv source ~(one 'nil (:source mapping)))
 
              (print "Cloning into" source "(just a sec)")
-             (repo-clone ~(one 'nil (:upstream mapping)) source)
+             (repo-clone ~(one 'nil (:upstream mapping)) source
+                         ~(one 'nil (:upstream-refspec mapping)))
              (chdir source)
 
              (setv version (.strip ~(one 'nil (:version mapping))))
@@ -39,7 +40,8 @@
              (setv tarball (build-tarball source version))
              (print "Tarball built as" tarball)
 
-             (repo-clone-debian ~(one 'nil (:debian mapping)))
+             (repo-clone-debian ~(one 'nil (:debian mapping))
+                                ~(one 'nil (:debian-refspec mapping)))
              (print "Debian overlay pulled down")
 
              (setv dversion (prepare-changelog version dist))

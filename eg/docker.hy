@@ -21,4 +21,5 @@
   :upload-location "https://launchpad.net/~docker-maint/+archive/ubuntu/testing/+files/docker.io_{version}.dsc"
   :suites "utopic" "trusty"
   :target "ppa:docker-maint/testing"
-  :debian "git://git.debian.org/docker/docker.io.git")
+  :debian "git://git.debian.org/docker/docker.io.git"
+  :debian-refspec "nightly")
