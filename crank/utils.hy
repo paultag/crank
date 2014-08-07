@@ -37,16 +37,16 @@
   (debsign (.format "-k{}" key) path))
 
 
-(defn repo-clone [url dest]
+(defn repo-clone [url dest &optional refspec]
   (if (.startswith url "svn://")
-    (svn "checkout" url dest)
-    (git "clone" url dest)))
+    (svn "checkout" (lif refspec ["-r" refspec]) url dest)
+    (git "clone" (lif refspec ["-b" refspec]) url dest)))
 
 
-(defn repo-clone-debian [url]
+(defn repo-clone-debian [url &optional refspec]
   (setv dest (getcwd))
   (with [[(cdtmp)]]
-    (repo-clone url "debian")
+    (repo-clone url "debian" refspec)
     (if (exists "./debian/debian/")
         (move "./debian/debian/" dest)
         (move "./debian/" dest))))
