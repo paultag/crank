@@ -39,12 +39,12 @@
 
 (defn repo-clone [url dest &optional refspec]
   (if (.startswith url "svn://")
-    (apply svn (doto ["checkout"]
-                     (.extend (lif refspec ["-r" refspec] []))
-                     (.extend [url dest])))
-    (apply git (doto ["clone"]
-                     (.extend (lif refspec ["-b" refspec] []))
-                     (.extend [url dest])))))
+    (apply svn (flatten [["checkout"]
+                         (lif refspec ["-r" refspec] [])
+                         [url dest]]))
+    (apply git (flatten [["clone"]
+                        (lif refspec ["-b" refspec] [])
+                        [url dest]]))))
 
 
 (defn repo-clone-debian [url &optional refspec]
