@@ -4,9 +4,15 @@
         [os [chdir getcwd]]
         [os.path [exists join]]
         [glob [glob]]
-        [sh [git svn tar dch dpkg-buildpackage debsign]]
+        [sh [git svn tar dch dpkg-buildpackage debsign cat]]
         [shutil [rmtree move]]
         [functools [reduce]])
+
+
+; nice user-facing helpers (especially for :version)
+(defn shs [cmd &rest args] (-> (apply cmd args) (str) (.strip)))
+(defn gits [&rest args] (apply shs [git args]))
+(defn cats [&rest args] (apply shs [cat args]))
 
 
 (with-decorator contextmanager (defn cdtmp []

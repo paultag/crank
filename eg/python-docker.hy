@@ -1,9 +1,6 @@
 (require crank.language)
-(import [sh [cat git]])
+(import [crank.utils [gits]])
 
-
-(defn shs [cmd &rest args] (-> (apply cmd args) (str) (.strip)))
-(defn gits [&rest args] (apply shs [git args]))
 
 (build
   :source "python-docker"

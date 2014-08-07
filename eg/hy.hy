@@ -1,12 +1,12 @@
 (require crank.language)
-(import [sh [git]])
+(import [crank.utils [gits]])
 
 
 (build
   :source "hy"
   :key "0x70DB41EB"
   :upstream "git://github.com/hylang/hy.git"
-  :version (.replace (git "describe") "-" "+")
+  :version (.replace (gits "describe") "-" "+")
   :maintainer-email "doulos@metatron.pault.ag"
   :maintainer-name "Paul's Doulos"
   :upload-location "https://launchpad.net/~hy-society/+archive/ubuntu/nightly/+files/{source}_{version}.dsc"
