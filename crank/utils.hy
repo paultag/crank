@@ -39,8 +39,14 @@
 
 (defn repo-clone [url dest &optional refspec]
   (if (.startswith url "svn://")
-    (svn "checkout" (lif refspec ["-r" refspec] []) url dest)
-    (git "clone" (lif refspec ["-b" refspec] []) url dest)))
+    (let [[cmd svn] [args (doto ["checkout"]
+                      (.extend (lif refspec ["-r" refspec] []))
+                      (.extend [url dest]))]]
+      (apply cmd args))
+    (let [[cmd git] [args (doto ["clone"]
+                      (.extend (lif refspec ["-b" refspec] []))
+                      (.extend [url dest]))]]
+      (apply cmd args))))
 
 
 (defn repo-clone-debian [url &optional refspec]
