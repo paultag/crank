@@ -23,6 +23,7 @@ if [ ! -e "${CRANK_HOME}/key.asc" ]; then
 	echo >&2
 else
 	gpg --import "${CRANK_HOME}/key.asc"
+	echo
 fi
 
 if [ $# -eq 0 ]; then
