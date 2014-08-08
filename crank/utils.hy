@@ -31,6 +31,7 @@
          (.format "{}-1~{}1" version suite)
          "--force-distribution"
          "--distribution" suite
+         "--force-bad-version"
          "Automated rebuild.")
     dversion))
 
