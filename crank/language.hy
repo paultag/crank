@@ -25,10 +25,12 @@
          (setv remote ~(one 'nil (:upload-location mapping)))
 
          (for [dist [~@(:suites mapping)]]
-           (print "Building for" dist)
-           (in-workdir
-             (setv source ~(one 'nil (:source mapping)))
+           (print)
 
+           (setv source ~(one 'nil (:source mapping)))
+           (print "Building" source "for" dist)
+
+           (in-workdir
              (print "Cloning into" source "(just a sec)")
              (repo-clone ~(one 'nil (:upstream mapping)) source
                          ~(one 'nil (:upstream-refspec mapping)))
@@ -70,5 +72,4 @@
                           (sign-source changes key)
                           (lif target (do
                                         (print "Uploading" changes "to" target)
-                                        (dput.upload changes target)))))))
-           (print)))))
+                                        (dput.upload changes target)))))))))))
