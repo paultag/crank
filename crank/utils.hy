@@ -37,7 +37,7 @@
 
 
 (defn prepare-source []
-  (dpkg-buildpackage "-us" "-uc" "-S" "-nc"))
+  (dpkg-buildpackage "-us" "-uc" "-S" "-nc" "-sa"))
 
 
 (defn sign-source [path key]
