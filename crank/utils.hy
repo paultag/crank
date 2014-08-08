@@ -32,6 +32,7 @@
          "--force-distribution"
          "--distribution" suite
          "--force-bad-version"
+         "--urgency" "low" ; since this is for nightlies, let's be kind to the build servers
          "Automated rebuild.")
     dversion))
 
