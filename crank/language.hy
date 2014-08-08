@@ -70,4 +70,5 @@
                           (sign-source changes key)
                           (lif target (do
                                         (print "Uploading" changes "to" target)
-                                        (dput.upload changes target)))))))))))
+                                        (dput.upload changes target)))))))
+           (print)))))
