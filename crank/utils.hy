@@ -11,7 +11,7 @@
 
 ; nice user-facing helpers (especially for :version)
 (defn shs [cmd &rest args] (-> (apply cmd args) (str) (.strip)))
-(defn gits [&rest args] (apply shs [git args]))
+(defn gits [&rest args] (apply shs [git "--no-pager" args]))
 (defn cats [&rest args] (apply shs [cat args]))
 
 
