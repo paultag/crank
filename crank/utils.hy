@@ -25,14 +25,14 @@
          (rmtree tdir)))))
 
 
-(defn prepare-changelog [version suite]
+(defn prepare-changelog [version suite &optional urgency]
   (let [[dversion (.format "{}-1~{}1" version suite)]]
     (dch "--newversion"
          (.format "{}-1~{}1" version suite)
          "--force-distribution"
          "--distribution" suite
          "--force-bad-version"
-         "--urgency" "low" ; since this is for nightlies, let's be kind to the build servers
+         "--urgency" (lif urgency urgency "low")
          "Automated rebuild.")
     dversion))
 

@@ -46,7 +46,8 @@
                                 ~(one 'nil (:debian-refspec mapping)))
              (print "Debian overlay pulled down")
 
-             (setv dversion (prepare-changelog version dist))
+             (setv dversion (prepare-changelog version dist
+                                               ~(one 'nil (:urgency mapping))))
              (print "Changelog prepared.")
              (print "Version:" dversion)
 
