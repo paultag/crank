@@ -70,7 +70,7 @@
                    [target ~(one 'nil (:target mapping))]]
                (lif key (do
                           (print "Signing" changes "with" key)
-                          (sign-source changes key)
-                          (lif target (do
-                                        (print "Uploading" changes "to" target)
-                                        (dput.upload changes target)))))))))))
+                          (sign-source changes key)))
+               (lif target (do
+                             (print "Uploading" changes "to" target)
+                             (dput.upload changes target)))))))))
