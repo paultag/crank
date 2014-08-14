@@ -51,17 +51,19 @@
              (print "Changelog prepared.")
              (print "Version:" dversion)
 
-             (setv url (apply remote.format [] {
-               "version" dversion
-               "upstream-version" version
-               "source" source
-             }))
+             (lif remote
+                  (do
+                    (setv url (apply remote.format [] {
+                      "version" dversion
+                      "upstream-version" version
+                      "source" source
+                    }))
 
-             (setv response (requests.head url))
-             (if (!= response.status-code 404)
-               (do (print dversion "already present in the remote")
-                   (continue))
-               (print "Remote doesn't have" dversion))
+                    (setv response (requests.head url))
+                    (if (!= response.status-code 404)
+                      (do (print dversion "already present in the remote")
+                        (continue))
+                      (print "Remote doesn't have" dversion))))
 
              (prepare-source)
              (print "Source distribution prepared.")
