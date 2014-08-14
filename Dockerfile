@@ -31,6 +31,8 @@ ENV CRANK_HOME /crank/
 ENV HOME /home/user
 RUN groupadd user && useradd -d "$HOME" -m -g user user
 RUN mkdir -p "$CRANK_HOME" && chown -R user:user "$CRANK_HOME"
+# (add a "crank_home" dput target, for easy local testing ♥)
+RUN { echo '{'; echo '  "method": "local",'; echo '  "allow_unsigned_uploads": true,'; echo '  "incoming": "'"$CRANK_HOME"'"'; echo '}'; } > /etc/dput.d/profiles/crank_home.json
 USER user
 
 ENTRYPOINT ["/usr/bin/crank"]
