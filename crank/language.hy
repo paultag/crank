@@ -42,11 +42,12 @@
              (setv tarball (build-tarball source version))
              (print "Tarball built as" tarball)
 
-             (repo-clone-debian ~(one 'nil (:debian mapping))
-                                ~(one 'nil (:debian-refspec mapping)))
+             (setv dcount
+                   (repo-clone-debian ~(one 'nil (:debian mapping))
+                                      ~(one 'nil (:debian-refspec mapping))))
              (print "Debian overlay pulled down")
 
-             (setv dversion (prepare-changelog version dist
+             (setv dversion (prepare-changelog version dist dcount
                                                ~(one 'nil (:urgency mapping))))
              (print "Changelog prepared.")
              (print "Version:" dversion)

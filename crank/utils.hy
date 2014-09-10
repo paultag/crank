@@ -30,10 +30,9 @@
          (rmtree tdir)))))
 
 
-(defn prepare-changelog [version suite &optional urgency]
-  (let [[dversion (.format "{}-1~{}1" version suite)]]
-    (dch "--newversion"
-         (.format "{}-1~{}1" version suite)
+(defn prepare-changelog [version suite dcount &optional urgency]
+  (let [[dversion (.format "{}-{}~{}1" version dcount suite)]]
+    (dch "--newversion" dversion
          "--force-distribution"
          "--distribution" suite
          "--force-bad-version"
@@ -64,9 +63,14 @@
   (setv dest (getcwd))
   (with [[(cdtmp)]]
     (repo-clone url "debian" refspec)
+    (setv dcount (with [[(indir "debian")]]
+                       (let [[lasttag (gits "describe" "--tags" "--abbrev=0")]
+                             [range (+ lasttag "..HEAD")]]
+                         (+ 1 (int (gits "rev-list" range "--count"))))))
     (if (exists "./debian/debian/")
         (move "./debian/debian/" dest)
-        (move "./debian/" dest))))
+        (move "./debian/" dest))
+    dcount))
 
 
 (defn build-tarball [source version]
