@@ -15,13 +15,18 @@
 (defn cats [&rest args] (apply shs [cat args]))
 
 
-(with-decorator contextmanager (defn cdtmp []
-  (setv tdir (mkdtemp))
+(with-decorator contextmanager (defn indir [dir]
   (setv popd (getcwd))
-  (chdir tdir)
+  (chdir dir)
   (try (yield)
        (finally
-         (chdir popd)
+         (chdir popd)))))
+
+(with-decorator contextmanager (defn cdtmp []
+  (setv tdir (mkdtemp))
+  (try (with [[(indir tdir)]]
+             (yield))
+       (finally
          (rmtree tdir)))))
 
 
