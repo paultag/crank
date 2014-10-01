@@ -1,18 +1,9 @@
 (require crank.language)
-(import [crank.utils [cats gits]]
-  [os [listdir]]
-  [os.path [abspath join splitext]])
+(import [crank.utils [cats gits load-deps]])
 
 
 ; load/build deps first
-(let [[dir (-> __file__ abspath (splitext) (. [0]))]]
-  (for [name (sorted (listdir dir))]
-       (if (!= (-> name (splitext) (. [1])) ".hy") (continue))
-       (print "Loading" name)
-       (with [[f (open (join dir name))]]
-             (try (while true (eval (read f)))
-                  (catch [EOFError])))
-       (print)))
+(load-deps __file__)
 
 
 (build

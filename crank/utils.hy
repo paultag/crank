@@ -1,8 +1,8 @@
 (import [collections [defaultdict]]
         [tempfile [mkdtemp]]
         [contextlib [contextmanager]]
-        [os [chdir getcwd]]
-        [os.path [exists join]]
+        [os [chdir getcwd listdir]]
+        [os.path [abspath exists join splitext]]
         [glob [glob]]
         [sh [git svn tar dch dpkg-buildpackage debsign cat]]
         [shutil [rmtree move]]
@@ -13,6 +13,17 @@
 (defn shs [cmd &rest args] (-> (apply cmd args) (str) (.strip)))
 (defn gits [&rest args] (apply shs [git "--no-pager" args]))
 (defn cats [&rest args] (apply shs [cat args]))
+
+
+(defn load-deps [file]
+  (let [[dir (-> file abspath (splitext) (. [0]))]]
+    (for [name (sorted (listdir dir))]
+         (if (!= (-> name (splitext) (. [1])) ".hy") (continue))
+         (print "Loading" name)
+         (with [[f (open (join dir name))]]
+               (try (while true (eval (read f)))
+                    (catch [EOFError])))
+         (print))))
 
 
 (with-decorator contextmanager (defn indir [dir]
