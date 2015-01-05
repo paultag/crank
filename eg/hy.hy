@@ -12,4 +12,4 @@
   :upload-location "https://launchpad.net/~hy-society/+archive/ubuntu/nightly/+files/{source}_{version}.dsc"
   :suites "utopic" "trusty"
   :target "ppa:hy-society/nightly"
-  :debian "git://git.debian.org/collab-maint/hy.git")
+  :debian "git://git.debian.org/pkg-hy/hy.git")
