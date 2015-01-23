@@ -3,7 +3,7 @@
 
 
 ; load/build deps first
-;(load-deps __file__)
+(load-deps __file__)
 
 
 (build
