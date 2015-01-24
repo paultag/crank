@@ -20,9 +20,13 @@
     (for [name (sorted (listdir dir))]
          (if (!= (-> name (splitext) (. [1])) ".hy") (continue))
          (print "Loading" name)
-         (with [[f (open (join dir name))]]
-               (try (while true (eval (read f)))
-                    (catch [EOFError])))
+         (try
+           (with [[f (open (join dir name))]]
+                 (try (while true (eval (read f)))
+                      (catch [EOFError])))
+           (catch [] (import [traceback])
+                     (.print_exc traceback)
+                     (print "Failed:" name)))
          (print))))
 
 
