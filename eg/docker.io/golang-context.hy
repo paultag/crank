@@ -11,6 +11,6 @@
   :maintainer-email "admwiggin@gmail.com"
   :maintainer-name "Tianon Gravi"
   :upload-location "https://launchpad.net/~docker-maint/+archive/ubuntu/testing/+files/{source}_{version}.dsc"
-  :suites "utopic" "trusty"
+  :suites "vivid" "utopic" "trusty"
   :target "ppa:docker-maint/testing"
   :debian "git://git.debian.org/pkg-go/packages/golang-context.git")
