@@ -4,7 +4,7 @@
         [os [chdir getcwd listdir]]
         [os.path [abspath exists join splitext]]
         [glob [glob]]
-        [sh [git svn tar dch dpkg-buildpackage debsign cat]]
+        [sh [git svn tar dch dpkg-buildpackage debsign cat date]]
         [shutil [rmtree move]]
         [functools [reduce]])
 
@@ -13,6 +13,7 @@
 (defn shs [cmd &rest args] (-> (apply cmd args) (str) (.strip)))
 (defn gits [&rest args] (apply shs [git "--no-pager" args]))
 (defn cats [&rest args] (apply shs [cat args]))
+(defn dates [&rest args] (apply shs [date args]))
 
 
 (defn load-deps [file]
