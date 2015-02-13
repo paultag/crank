@@ -2,6 +2,7 @@
 (import [crank.utils [gits]])
 
 
+(if false
 (build
   :source "golang-go-systemd"
   :key "0x70DB41EB"
@@ -16,3 +17,4 @@
   :suites "vivid" "utopic" "trusty"
   :target "ppa:docker-maint/testing"
   :debian "git://git.debian.org/pkg-go/packages/golang-go-systemd.git")
+)
