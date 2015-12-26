@@ -14,11 +14,12 @@ RUN apt-get update && apt-get install -y \
     dpkg-dev \
     devscripts
 
-RUN python3.4 /usr/bin/pip3 install -e \
-        git://git.debian.org/collab-maint/dputng.git#egg=dput
+#RUN python3.4 /usr/bin/pip3 install -e \
+#        git://git.debian.org/collab-maint/dputng.git#egg=dput
 
-RUN python3.4 /usr/bin/pip3 install -e \
-        git://github.com/hylang/hy.git#egg=hy
+# TODO fix the Hy tip issues so we can use Hy from master again
+#RUN python3.4 /usr/bin/pip3 install -e \
+#        git://github.com/hylang/hy.git#egg=hy
 
 COPY requirements.txt /opt/pault.ag/crank/
 WORKDIR /opt/pault.ag/crank
