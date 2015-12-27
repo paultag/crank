@@ -13,4 +13,4 @@
   :suites "wily" "vivid" "trusty"
   :target "ppa:hy-society/nightly"
   :debian "git://git.debian.org/pkg-hy/hy.git"
-  :debian-refspec "nightly")
+  :debian-refspec "master")
